@@ -31,6 +31,16 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 new RetrieveFeedTask().execute();
             }
         });
+
+        Button signUpNavigationButton = (Button) findViewById(R.id.signUpNavigationButton);
+        signUpNavigationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(signUpIntent);
+            }
+        });
+
     }
 
     public void SignIn() {
