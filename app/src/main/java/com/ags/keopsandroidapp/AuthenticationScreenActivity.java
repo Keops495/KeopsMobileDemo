@@ -19,12 +19,10 @@ import java.net.URL;
 
 public class AuthenticationScreenActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication_screen);
-
 
         Button signInButton = (Button) findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -33,25 +31,20 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 new RetrieveFeedTask().execute();
             }
         });
-
     }
 
-    public void SignIn(View view) {
-        Intent loginIntent = new Intent(getApplicationContext(),MainActivity.class);
+    public void SignIn() {
+        Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(loginIntent);
     }
 
     class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 
-        private Exception exception;
         static final String API_URL = "https://keops-web1.herokuapp.com/Api/users";
-
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
 
         protected void onPreExecute() {
-            System.out.println("userName: " + userName.getText().toString());
-            System.out.println("password: " + password.getText().toString());
         }
 
         protected String doInBackground(Void... urls) {
@@ -82,7 +75,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             if (response == null) {
                 response = "THERE WAS AN ERROR";
             }
-
             Log.i("INFO", response);
 
             try {
@@ -93,29 +85,17 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 while (true) {
 
                     JSONObject object = new JSONObject(response);
-
-                    String userID = object.getString("user_id");
-                    String name = object.getString("name");
-                    String surname = object.getString("surname");
                     String user_name = object.getString("user_name");
                     String pass_word = object.getString("password");
-                    String n_times = object.getString("n_times");
 
-                    System.out.println("userID: " + userID);
-                    System.out.println("name: " + name);
-                    System.out.println("surname: " + surname);
-                    System.out.println("user_name: " + user_name);
-                    System.out.println("pass_word: " + pass_word);
-                    System.out.println("n_times: " + n_times);
-
-                    if(userName.getText().toString().equals(user_name) && password.getText().toString().equals(pass_word)) {
-                        System.out.println("user eslesti ");
+                    if (userName.getText().toString().equals(user_name) && password.getText().toString().equals(pass_word)) {
+                        System.out.println("Kullanıcı eslesti ");
+                        SignIn();
                         break;
-                    }
-                    else
-                        System.out.println("kullanıcı bulunamadı ");
+                    } else
+                        System.out.println("Kullanıcı bulunamadı ");
 
-                    if (response.indexOf(",{") >= 0) {
+                    if (response.contains(",{")) {
                         response = response.substring(response.indexOf(",{") + 1);
                     } else
                         break;
@@ -127,6 +107,5 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
