@@ -19,6 +19,7 @@ import java.net.URL;
 
 public class AuthenticationScreenActivity extends AppCompatActivity {
 
+    private String user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
 
     public void SignIn() {
         Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
+        loginIntent.putExtra("userId",user_id);
         startActivity(loginIntent);
     }
 
@@ -97,6 +99,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(response);
                     String user_name = object.getString("user_name");
                     String pass_word = object.getString("password");
+                    user_id = object.getString("user_id");
 
                     if (userName.getText().toString().equals(user_name) && password.getText().toString().equals(pass_word)) {
                         System.out.println("Kullanıcı eslesti ");

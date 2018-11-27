@@ -36,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Albumlerin listelenecegi  list view yapısı
-        
+        Intent intent = getIntent();
+        String userID = intent.getStringExtra("userId");
+        System.out.println("In the MainActivity Page, the authenticated user_id: " + userID );
     }
-
-
+    
 
 }
