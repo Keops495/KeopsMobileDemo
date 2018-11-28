@@ -7,8 +7,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String user_name;
+    private String user_id;
+    TextView textView;
 
     //Menu olusturuldu
     @Override
@@ -35,12 +40,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_homepage);
 
         Intent intent = getIntent();
-        String userID = intent.getStringExtra("userId");
-        System.out.println("In the MainActivity Page, the authenticated user_id: " + userID );
+        user_name = intent.getStringExtra("user_name");
+        user_id = intent.getStringExtra("user_id");
+
+        textView = (TextView) findViewById(R.id.textViewWelcome);
+        textView.setText("Hoşgeldin " + user_name);
     }
 
     public void showAlbum(View view) {
-
+        Intent albumsIntent = new Intent(getApplicationContext(), AlbumsActivity.class);
+        albumsIntent.putExtra("user_id",user_id);
+        startActivity(albumsIntent);
     }
 
     public void sharedWithMe(View view) {

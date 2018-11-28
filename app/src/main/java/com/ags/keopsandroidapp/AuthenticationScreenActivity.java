@@ -19,7 +19,9 @@ import java.net.URL;
 
 public class AuthenticationScreenActivity extends AppCompatActivity {
 
+    private String user_name;
     private String user_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,8 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
 
     public void SignIn() {
         Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
-        loginIntent.putExtra("userId",user_id);
+        loginIntent.putExtra("user_id",user_id);
+        loginIntent.putExtra("user_name", user_name);
         startActivity(loginIntent);
     }
 
@@ -97,7 +100,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 while (true) {
 
                     JSONObject object = new JSONObject(response);
-                    String user_name = object.getString("user_name");
+                    user_name = object.getString("user_name");
                     String pass_word = object.getString("password");
                     user_id = object.getString("user_id");
 
