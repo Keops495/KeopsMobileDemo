@@ -101,17 +101,17 @@ public class AlbumsActivity extends AppCompatActivity {
             ArrayAdapter arrayAdapter = new ArrayAdapter(AlbumsActivity.this, android.R.layout.simple_list_item_1, albumNames);
             listViewAlbums.setAdapter(arrayAdapter);
 
-            /*
+
             listViewAlbums.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(getApplicationContext(), AlbumGoruntulemeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ShowAlbumContentActivity.class);
                     intent.putExtra("album_id", albumIds.get(position));
                     intent.putExtra("name",albumNames.get(position));
                     startActivity(intent);
                 }
             });
-            */
+
         }
     }
 

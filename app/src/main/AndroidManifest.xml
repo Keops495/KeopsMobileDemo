@@ -28,7 +28,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".AlbumsActivity" />
-        <activity android:name=".ShowAlbumContent"></activity>
+        <activity android:name=".ShowAlbumContentActivity"></activity>
     </application>
 
 </manifest>
