@@ -42,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_name = intent.getStringExtra("user_name");
         user_id = intent.getStringExtra("user_id");
-
-        textView = (TextView) findViewById(R.id.textViewWelcome);
-        textView.setText("Hoşgeldin " + user_name);
+        
     }
 
     public void showAlbum(View view) {
