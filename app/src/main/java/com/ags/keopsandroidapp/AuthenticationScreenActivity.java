@@ -58,7 +58,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
         loginIntent.putExtra("user_id", user_id);
         loginIntent.putExtra("user_name", user_name);
-
         loginIntent.putStringArrayListExtra("photo_urls", photo_urls);
 
         startActivity(loginIntent);
@@ -76,7 +75,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
 
         protected String doInBackground(Void... urls) {
             // Do some validation here
-
             try {
                 URL url = new URL(USER_API_URL);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -96,7 +94,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 Log.e("ERROR", e.getMessage(), e);
                 return null;
             }
-
         }
 
         protected void onPostExecute(String response) {
@@ -106,7 +103,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             Log.i("INFO", response);
 
             try {
-
                 System.out.println(response);
                 response = response.substring(1, response.length());
 
@@ -134,7 +130,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 System.out.println(e.getMessage());
             }
         }
-
     }
 
     class RetrieveFeedTaskPhotos extends AsyncTask<Void, Void, String> {
@@ -166,7 +161,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 Log.e("ERROR", e.getMessage(), e);
                 return null;
             }
-
         }
 
         protected void onPostExecute(String response) {
@@ -176,12 +170,10 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             Log.i("INFO", response);
 
             try {
-
                 System.out.println(response);
                 response = response.substring(1, response.length());
 
                 while (true) {
-
                     JSONObject object = new JSONObject(response);
                     photo_urls.add(object.getString("photo_url"));
 
@@ -196,6 +188,5 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 System.out.println(e.getMessage());
             }
         }
-
     }
 }
