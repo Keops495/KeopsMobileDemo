@@ -7,13 +7,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private String user_name;
     private String user_id;
-    TextView textView;
+    private ArrayList<String> photo_urls;
 
     //Menu olusturuldu
     @Override
@@ -42,18 +43,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_name = intent.getStringExtra("user_name");
         user_id = intent.getStringExtra("user_id");
-        
+
+        photo_urls = intent.getStringArrayListExtra("photo_urls");
+
+        try {
+            for (String url : photo_urls) {
+                System.out.println(url);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void showAlbum(View view) {
         Intent albumsIntent = new Intent(getApplicationContext(), AlbumsActivity.class);
-        albumsIntent.putExtra("user_id",user_id);
+        albumsIntent.putExtra("user_id", user_id);
         startActivity(albumsIntent);
     }
 
     public void sharedWithMe(View view) {
 
     }
-
 
 }
