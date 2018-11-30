@@ -111,8 +111,13 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
                 for (int i = 0; i < jsonArr.length(); i++) {
                     if (jsonArr.getJSONObject(i).getString("photo_album_id").equals(albumId)) {
                         photosFromDB.add(jsonArr.getJSONObject(i).getString("photo_url"));
-                        tagsFromDB.add("api yazilmadigi icin serverdan data gelmiyor!");
-                        likesFromDB.add("api yazilmadigi icin serverdan data gelmiyor!");
+
+                        if (jsonArr.getJSONObject(i).getJSONObject("key") != null) {
+                            tagsFromDB.add(jsonArr.getJSONObject(i).getJSONObject("key").getString("thekey"));
+                        }
+                        if (jsonArr.getJSONObject(i).getJSONArray("likes").length() != 0) {
+                            likesFromDB.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("name") + jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("surname"));
+                        }
                     }
                 }
             } catch (JSONException e) {
