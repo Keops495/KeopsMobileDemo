@@ -43,7 +43,6 @@ public class PostClass extends ArrayAdapter<String> {
         liked.setText(likedUsers.get(position));
         Picasso.get().load(userImages.get(position)).into(photo);
 
-
         return customView;
     }
 }

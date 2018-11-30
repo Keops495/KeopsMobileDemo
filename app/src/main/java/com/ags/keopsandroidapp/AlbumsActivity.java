@@ -41,9 +41,7 @@ public class AlbumsActivity extends AppCompatActivity {
         try {
             String url = "https://keops-web1.herokuapp.com/Api/albums";
             downloadData.execute(url);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
     }
 
 
