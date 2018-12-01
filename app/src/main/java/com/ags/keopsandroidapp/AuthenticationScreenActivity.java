@@ -39,7 +39,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new RetrieveFeedTaskPhotos().execute();
                 new RetrieveFeedTaskUser().execute();
-
             }
         });
 

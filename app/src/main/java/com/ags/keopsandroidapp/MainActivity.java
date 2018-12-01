@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         photo_urls = intent.getStringArrayListExtra("photo_urls");
 
         createImages();
-
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
