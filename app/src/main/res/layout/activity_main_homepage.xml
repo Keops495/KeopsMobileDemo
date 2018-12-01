@@ -8,32 +8,20 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/buttonShowShared"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="sharedWithMe"
-        android:text="Paylaşılanlar"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonAlbums"
-        app:layout_constraintEnd_toEndOf="@+id/editText7"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonAlbums"
-        app:layout_constraintTop_toTopOf="@+id/buttonAlbums" />
-
-    <Button
         android:id="@+id/buttonAlbums"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:onClick="showAlbum"
         android:text="Albümlerim"
-        app:layout_constraintStart_toStartOf="@+id/editText7"
-        app:layout_constraintTop_toBottomOf="@+id/editText7" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/searchText"
+        app:layout_constraintTop_toBottomOf="@+id/searchText" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/searchText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,7 +30,7 @@
         android:ems="10"
         android:hint="Arama Yap"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +38,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +56,14 @@
             app:layout_constraintTop_toTopOf="@+id/scrollView"></LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Ara"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchText" />
 
 
 </android.support.constraint.ConstraintLayout>
