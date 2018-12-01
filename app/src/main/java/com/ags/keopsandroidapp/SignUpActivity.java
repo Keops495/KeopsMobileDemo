@@ -22,7 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText nameText, surnameText, usernameText, passwordText;
     private String name, surname, user_name, password;
 
-    /**
+     /**
      * Called when the activity is first created.
      */
     @Override
@@ -60,10 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Create data variable for sent values to server
 
-        final String data = "[{" + "\"name\":" + "\"" + name + "\"" + "," +
+        final String data = "{" + "\"name\":" + "\"" + name + "\"" + "," +
                 "\"surname\":" + "\"" + surname + "\"" + "," +
                 "\"Username\":" + "\"" + user_name + "\"" + "," +
-                "\"Password\":" + "\"" + password + "\"" + "}]";
+                "\"Password\":" + "\"" + password + "\"" + "}";
 
         String text = "";
         BufferedReader reader = null;
@@ -105,7 +105,6 @@ public class SignUpActivity extends AppCompatActivity {
             } catch (Exception ex) {
             }
         }
-
     }
 
 }

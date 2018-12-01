@@ -13,11 +13,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -27,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String user_name;
     private String user_id;
-    private ArrayList<String> photo_urls;
+    private ArrayList<String> photo_urls, photo_ids;
     private LinearLayout layout;
+    private String searchText;
+    private int count = 1;
 
     //Menu olusturuldu
     @Override
@@ -61,8 +70,21 @@ public class MainActivity extends AppCompatActivity {
 
         user_id = intent.getStringExtra("user_id");
         photo_urls = intent.getStringArrayListExtra("photo_urls");
+        photo_ids = intent.getStringArrayListExtra("photo_ids");
 
         createImages();
+
+        Button searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    GetText();
+                } catch (Exception e) {
+                    System.out.print("e.message: " + e.getMessage());
+                }
+            }
+        });
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -114,11 +136,23 @@ public class MainActivity extends AppCompatActivity {
             likeButton.setText("like");
             linearLayout.addView(likeButton);
 
+
             likeButton.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     try {
-                        likeButton.setTextColor(Color.rgb(255, 0, 0));
+                        if(count%2==0){
+                            likeButton.setTextColor(Color.rgb(255, 0, 0));
+                            count=1;
+                        }
+                        else
+                        {
+                            likeButton.setTextColor(Color.rgb(0, 0, 0));
+                            count = count*2;
+                        }
+
+
                     } catch (Exception ex) {
                         System.out.print(ex.getMessage());
                     }
@@ -139,4 +173,60 @@ public class MainActivity extends AppCompatActivity {
     public void sharedWithMe(View view) {
 
     }
+
+    public void GetText() throws UnsupportedEncodingException {
+        EditText searchEditText = findViewById(R.id.searchText);
+
+        for (String photo_id : photo_ids) {
+            final String data = "{" + "\"photo_id\" : " + "\"" + photo_id + "\"" + "}";
+
+            String respond = "";
+            BufferedReader reader = null;
+
+            // Send data
+            try {
+
+                // Defined URL  where to send data
+                URL url = new URL("https://keops-web1.herokuapp.com/Api/get_photo");
+
+                System.out.println("data " + data);
+
+                // Send POST data request
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                // Get the server response
+
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                // Read Server Response
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                reader.close();
+
+                respond = sb.toString();
+
+                System.out.print("respond: " + respond);
+
+
+            } catch (Exception ex) {
+                System.out.print(ex.getMessage());
+            } finally {
+                try {
+                    reader.close();
+                } catch (Exception ex) {
+                }
+            }
+
+        }
+
+    }
+
 }

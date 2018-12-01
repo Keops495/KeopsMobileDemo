@@ -25,6 +25,8 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
     private String user_name;
     private String user_id;
     private ArrayList<String> photo_urls = new ArrayList<String>();
+    private ArrayList<String> photo_ids = new ArrayList<String>();
+
     private String photoLiked;
 
     @Override
@@ -59,6 +61,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
         loginIntent.putExtra("user_id", user_id);
         loginIntent.putExtra("user_name", user_name);
         loginIntent.putStringArrayListExtra("photo_urls", photo_urls);
+        loginIntent.putStringArrayListExtra("photo_ids", photo_ids);
 
         startActivity(loginIntent);
     }
@@ -178,6 +181,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 while (true) {
                     JSONObject object = new JSONObject(response);
                     photo_urls.add(object.getString("photo_url"));
+                    photo_ids.add(object.getString("photo_id"));
 
                     if (response.contains(",{")) {
                         response = response.substring(response.indexOf(",{") + 1);
