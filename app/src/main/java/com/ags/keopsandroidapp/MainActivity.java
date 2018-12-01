@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user_name = intent.getStringExtra("user_name");
+        Toast.makeText(this,"Hoşgeldin: " + user_name,
+                Toast.LENGTH_SHORT).show();
+
         user_id = intent.getStringExtra("user_id");
         photo_urls = intent.getStringArrayListExtra("photo_urls");
 
@@ -103,17 +107,26 @@ public class MainActivity extends AppCompatActivity {
             linearLayout.setLayoutParams(new android.view.ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             linearLayout.setPadding(160, 0, 0, 0);
 
-            Button likeButton = new Button(this);
+            final Button likeButton = new Button(this);
             likeButton.setLayoutParams(new android.view.ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+            likeButton.setBackgroundColor(Color.rgb(255, 255, 255  ));
 
             likeButton.setText("like");
             linearLayout.addView(likeButton);
 
-            //layout.setBackgroundColor(Color.rgb(154, 225, 247));
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        likeButton.setTextColor(Color.rgb(255,0,0));
+                    } catch (Exception ex) {
+                        System.out.print(ex.getMessage());
+                    }
+                }
+            });
 
             layout.addView(image);
             layout.addView(linearLayout);
-
         }
     }
 
