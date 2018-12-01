@@ -25,6 +25,7 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
     private String user_name;
     private String user_id;
     private ArrayList<String> photo_urls = new ArrayList<String>();
+    private String photoLiked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +106,15 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
                 System.out.println(response);
                 response = response.substring(1, response.length());
 
+                System.out.println("Kullanıcı: " + response);
+
                 while (true) {
 
                     JSONObject object = new JSONObject(response);
                     user_name = object.getString("user_name");
                     String pass_word = object.getString("password");
                     user_id = object.getString("user_id");
+
 
                     if (userName.getText().toString().equals(user_name) && password.getText().toString().equals(pass_word)) {
                         System.out.println("Kullanıcı eslesti ");
@@ -169,7 +173,6 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             Log.i("INFO", response);
 
             try {
-                System.out.println(response);
                 response = response.substring(1, response.length());
 
                 while (true) {
@@ -188,4 +191,5 @@ public class AuthenticationScreenActivity extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user_name = intent.getStringExtra("user_name");
-        Toast.makeText(this,"Hoşgeldin: " + user_name,
+        Toast.makeText(this, "Hoşgeldin: " + user_name,
                 Toast.LENGTH_SHORT).show();
 
         user_id = intent.getStringExtra("user_id");
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
             final Button likeButton = new Button(this);
             likeButton.setLayoutParams(new android.view.ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            likeButton.setBackgroundColor(Color.rgb(255, 255, 255  ));
+            likeButton.setBackgroundColor(Color.rgb(255, 255, 255));
 
             likeButton.setText("like");
             linearLayout.addView(likeButton);
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     try {
-                        likeButton.setTextColor(Color.rgb(255,0,0));
+                        likeButton.setTextColor(Color.rgb(255, 0, 0));
                     } catch (Exception ex) {
                         System.out.print(ex.getMessage());
                     }

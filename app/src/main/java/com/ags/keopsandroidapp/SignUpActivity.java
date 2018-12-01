@@ -43,9 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
                 try {
                     // CALL GetText method to make post method call
                     GetText();
-                } catch (Exception ex) {
-                    content.setText(" url exeption! ");
-                    System.out.print(content.getText().toString());
+                } catch (Exception e) {
+                    System.out.print("e.message: " + e.getMessage());
                 }
             }
         });
@@ -61,17 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Create data variable for sent values to server
 
-        String data = URLEncoder.encode("name", "UTF-8")
-                + "=" + URLEncoder.encode(name, "UTF-8");
-
-        data += "&" + URLEncoder.encode("surname", "UTF-8") + "="
-                + URLEncoder.encode(surname, "UTF-8");
-
-        data += "&" + URLEncoder.encode("user_name", "UTF-8")
-                + "=" + URLEncoder.encode(user_name, "UTF-8");
-
-        data += "&" + URLEncoder.encode("password", "UTF-8")
-                + "=" + URLEncoder.encode(password, "UTF-8");
+        final String data = "[{" + "\"name\":" + "\"" + name + "\"" + "," +
+                "\"surname\":" + "\"" + surname + "\"" + "," +
+                "\"Username\":" + "\"" + user_name + "\"" + "," +
+                "\"Password\":" + "\"" + password + "\"" + "}]";
 
         String text = "";
         BufferedReader reader = null;
@@ -81,6 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             // Defined URL  where to send data
             URL url = new URL("https://keops-web1.herokuapp.com/Api/signup");
+
+            System.out.println(data);
 
             // Send POST data request
 
@@ -112,8 +106,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
 
-        // Show response on activity
-        content.setText(text);
     }
 
 }
