@@ -6,18 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -39,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.usernameText);
         passwordText = findViewById(R.id.passwordText);
 
-        signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         thread.start();
-        
+
     }
 }
