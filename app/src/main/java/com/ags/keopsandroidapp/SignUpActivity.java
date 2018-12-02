@@ -2,15 +2,20 @@ package com.ags.keopsandroidapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -18,11 +23,10 @@ import java.net.URLEncoder;
 public class SignUpActivity extends AppCompatActivity {
 
     private Button signUpButton;
-    private TextView content;
     private EditText nameText, surnameText, usernameText, passwordText;
     private String name, surname, user_name, password;
 
-     /**
+    /**
      * Called when the activity is first created.
      */
     @Override
@@ -30,7 +34,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        content = (TextView) findViewById(R.id.content);
         nameText = findViewById(R.id.nameText);
         surnameText = findViewById(R.id.surnameText);
         usernameText = findViewById(R.id.usernameText);
@@ -42,7 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     // CALL GetText method to make post method call
-                    GetText();
+                    sendPost();
                 } catch (Exception e) {
                     System.out.print("e.message: " + e.getMessage());
                 }
@@ -50,61 +53,49 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Create GetText Metod
-    public void GetText() throws UnsupportedEncodingException {
-        // Get user defined values
-        name = nameText.getText().toString();
-        surname = surnameText.getText().toString();
-        user_name = usernameText.getText().toString();
-        password = passwordText.getText().toString();
+    public void sendPost() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    name = nameText.getText().toString();
+                    surname = surnameText.getText().toString();
+                    user_name = usernameText.getText().toString();
+                    password = passwordText.getText().toString();
 
-        // Create data variable for sent values to server
+                    URL url = new URL("https://keops-web1.herokuapp.com/Api/get_photo");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
 
-        final String data = "{" + "\"name\":" + "\"" + name + "\"" + "," +
-                "\"surname\":" + "\"" + surname + "\"" + "," +
-                "\"Username\":" + "\"" + user_name + "\"" + "," +
-                "\"Password\":" + "\"" + password + "\"" + "}";
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("name", name);
+                    jsonParam.put("surname", surname);
+                    jsonParam.put("Username", user_name);
+                    jsonParam.put("Password", password);
 
-        String text = "";
-        BufferedReader reader = null;
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
 
-        // Send data
-        try {
+                    os.flush();
+                    os.close();
 
-            // Defined URL  where to send data
-            URL url = new URL("https://keops-web1.herokuapp.com/Api/signup");
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG", conn.getResponseMessage());
 
-            System.out.println(data);
-
-            // Send POST data request
-
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-
-            // Get the server response
-
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            // Read Server Response
-            while ((line = reader.readLine()) != null) {
-                // Append server response in string
-                sb.append(line + "\n");
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        });
 
-            text = sb.toString();
-        } catch (Exception ex) {
-
-        } finally {
-            try {
-                reader.close();
-            } catch (Exception ex) {
-            }
-        }
+        thread.start();
+        
     }
-
 }
