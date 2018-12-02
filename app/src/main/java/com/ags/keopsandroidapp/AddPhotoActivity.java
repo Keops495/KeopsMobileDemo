@@ -29,7 +29,6 @@ public class AddPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addphoto);
 
-
         //Fotografın galeriden istendigi kisim
         Button btnSelectImage = (Button) findViewById(R.id.button);
         btnSelectImage.setOnClickListener(new View.OnClickListener() {
