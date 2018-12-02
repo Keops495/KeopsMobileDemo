@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class PostClass extends ArrayAdapter<String> {
 
     private final ArrayList<String> tags;
-    private final ArrayList<ArrayList<String>> likedUsers;
+    private final ArrayList<String> likedUsers;
     private final ArrayList<String> userImages;
     private final Activity context;
 
-    public PostClass(ArrayList<String> tags, ArrayList<ArrayList<String>> likedUsers, ArrayList<String> userImages, Activity context) {
+    public PostClass(ArrayList<String> tags, ArrayList<String> likedUsers, ArrayList<String> userImages, Activity context) {
         super(context, R.layout.layout_phototaglike, tags);
         this.tags = tags;
         this.likedUsers = likedUsers;
@@ -40,14 +40,7 @@ public class PostClass extends ArrayAdapter<String> {
         ImageView photo = customView.findViewById(R.id.imageViewFotograf);
 
         tag.setText(tags.get(position));
-        for (int i = 0; i < likedUsers.get(position).size(); i++) {
-            if (i + 1 == likedUsers.get(position).size()) {
-                liked.setText(likedUsers.get(position).get(i));
-            } else {
-                liked.setText(likedUsers.get(position).get(i) + ",");
-            }
-        }
-        //liked.setText(likedUsers.get(position));
+        liked.setText(likedUsers.get(position));
         Picasso.get().load(userImages.get(position)).into(photo);
 
         return customView;

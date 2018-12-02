@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -26,6 +29,24 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
     */
     String albumName;
     String albumId;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_photo, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Menu item'nin secilmesi kontrolu
+        if (item.getItemId() == R.id.add_photo) {
+            Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
+            intent.putExtra("album_id", albumId);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +123,7 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             final ArrayList<String> tagsFromDB = new ArrayList<String>();
-            final ArrayList<ArrayList<String>> likesFromDB = new ArrayList<>();
+            final ArrayList<String> likesFromDB = new ArrayList<>();
             final ArrayList<String> photosFromDB = new ArrayList<String>();
             final JSONArray jsonArr;
             try {
@@ -112,20 +133,19 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
                     if (jsonArr.getJSONObject(i).getString("photo_album_id").equals(albumId)) {
                         photosFromDB.add(jsonArr.getJSONObject(i).getString("photo_url"));
 
-                        if (jsonArr.getJSONObject(i).getJSONObject("key") != null) {
+                        if (!(jsonArr.getJSONObject(i).isNull("key"))) {
                             tagsFromDB.add(jsonArr.getJSONObject(i).getJSONObject("key").getString("thekey"));
+                        } else {
+                            tagsFromDB.add("");
                         }
 
-                        ArrayList<String> likesForEachPhoto = new ArrayList<>();
-                        for (int j = 0; j < jsonArr.getJSONObject(i).getJSONArray("likes").length(); j++) {
-                            likesForEachPhoto.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(j).getString("name") + jsonArr.getJSONObject(j).getJSONArray("likes").getJSONObject(0).getString("surname"));
+                        if (jsonArr.getJSONObject(i).optJSONArray("likes") != null) {
+                            if (jsonArr.getJSONObject(i).getJSONArray("likes").length() != 0) {
+                                likesFromDB.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("name") + jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("surname"));
+                            } else {
+                                likesFromDB.add("");
+                            }
                         }
-                        likesFromDB.add(likesForEachPhoto);
-                        /*
-                        if (jsonArr.getJSONObject(i).getJSONArray("likes").length() != 0) {
-                            likesFromDB.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("name") + jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("surname"));
-                        }
-                        */
                     }
                 }
             } catch (JSONException e) {

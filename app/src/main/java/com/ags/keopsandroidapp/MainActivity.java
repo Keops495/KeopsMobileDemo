@@ -39,25 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private String searchText;
     private int count = 1;
 
-    //Menu olusturuldu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_albums, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //Menu item'nin secilmesi kontrolu
-        if (item.getItemId() == R.id.add_albums) {
-            //MainActivit2'nin calismasi saglaniyor
-            Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
