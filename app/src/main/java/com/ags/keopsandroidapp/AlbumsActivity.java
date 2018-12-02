@@ -39,6 +39,7 @@ public class AlbumsActivity extends AppCompatActivity {
         //Menu item'nin secilmesi kontrolu
         if (item.getItemId() == R.id.add_albums) {
             Intent intent = new Intent(getApplicationContext(), AddAlbumActivity.class);
+            intent.putExtra("user_id", user_id);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
