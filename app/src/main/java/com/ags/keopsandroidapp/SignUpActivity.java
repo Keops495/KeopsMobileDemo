@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -38,7 +37,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    // CALL GetText method to make post method call
                     sendPost();
                 } catch (Exception e) {
                     System.out.print("e.message: " + e.getMessage());
@@ -57,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user_name = usernameText.getText().toString();
                     password = passwordText.getText().toString();
 
-                    URL url = new URL("https://keops-web1.herokuapp.com/Api/get_photo");
+                    URL url = new URL("https://keops-web1.herokuapp.com/Api/signup");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -73,7 +71,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
                     os.writeBytes(jsonParam.toString());
 
                     os.flush();
@@ -90,6 +87,5 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         thread.start();
-
     }
 }
