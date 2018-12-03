@@ -39,6 +39,25 @@ public class MainActivity extends AppCompatActivity {
     private String searchText;
     private int count = 1;
 
+    //Menu olusturuldu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.set_value_n, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Menu item'nin secilmesi kontrolu
+        if (item.getItemId() == R.id.set_value_n) {
+            Intent intent = new Intent(getApplicationContext(), SetNActivity.class);
+            intent.putExtra("user_id", user_id);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
