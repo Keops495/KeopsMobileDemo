@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -26,6 +29,24 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
     */
     String albumName;
     String albumId;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_photo, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Menu item'nin secilmesi kontrolu
+        if (item.getItemId() == R.id.add_photo) {
+            Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
+            intent.putExtra("album_id", albumId);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +115,15 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
             }
         }
 
-        //{"photo_id":"20","photo_url":"https:\/\/vignette.wikia.nocookie.net\/southpark\/images\/9\/95\/Kyle-broflovski.png\/revision\/latest?cb=20170725131924","photo_date":"2018-11-24","photo_album_id":"1"}
-        //[{"photo_id":"20","photo_url":"http:\/\/www.petmd.com\/sites\/default\/files\/small-dog-breeds.jpg","photo_date":"2018-11-24","photo_album_id":"1"},
-        //{"photo_id":"22","photo_url":"http:\/\/www3.canisius.edu\/~grandem\/butterflylifecycle\/Butterfly.jpg","photo_date":"2018-11-24","photo_album_id":"1"},
-        //{"photo_id":"23","photo_url":"https:\/\/images.unsplash.com\/photo-1518791841217-8f162f1e1131?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d7b1bd980752bb3ea0a259f528eae78&w=1000&q=80","photo_date":"2018-11-25","photo_album_id":"2"}]
+        //[{"photo_id":"20","photo_url":"https:\/\/iysr.tmgrup.com.tr\/2010\/01\/21\/555510626250.jpg","photo_date":"2018-11-24","photo_album_id":"1","likes":[{"like_id":"9","like_user_id":"1","like_photo_id":"20","name":"yalim","surname":"bilgin"}],"key":{"thekey":"#daDog1"}},
+        // {"photo_id":"23","photo_url":"https:\/\/static.independent.co.uk\/s3fs-public\/thumbnails\/image\/2017\/02\/22\/09\/paris.jpg?w968h681","photo_date":"2018-11-25","photo_album_id":"2","likes":[{"like_id":"7","like_user_id":"1","like_photo_id":"23","name":"yalim","surname":"bilgin"}],"key":{"thekey":"#key"}},
+        // {"photo_id":"24","photo_url":"https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/e\/ee\/Sagrada_Familia_01.jpg\/250px-Sagrada_Familia_01.jpg","photo_date":"2018-11-28","photo_album_id":"4","likes":[{"like_id":"8","like_user_id":"1","like_photo_id":"24","name":"yalim","surname":"bilgin"}],"key":{"thekey":"#key"}},
+        // {"photo_id":"27","photo_url":"https:\/\/encrypted-tbn0.gstatic.com\/images?q=tbn:ANd9GcQ-9SxuP7GTqQT8Wj0Yj_ilFTJN_gpKpZzAQHcY5GINKWsQfXClCw","photo_date":"2018-11-28","photo_album_id":"1","likes":[{"like_id":"10","like_user_id":"1","like_photo_id":"27","name":"yalim","surname":"bilgin"}],"key":{"thekey":"#key"}}]
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             final ArrayList<String> tagsFromDB = new ArrayList<String>();
-            final ArrayList<String> likesFromDB = new ArrayList<String>();
+            final ArrayList<String> likesFromDB = new ArrayList<>();
             final ArrayList<String> photosFromDB = new ArrayList<String>();
             final JSONArray jsonArr;
             try {
@@ -112,11 +133,18 @@ public class ShowAlbumContentActivity extends AppCompatActivity {
                     if (jsonArr.getJSONObject(i).getString("photo_album_id").equals(albumId)) {
                         photosFromDB.add(jsonArr.getJSONObject(i).getString("photo_url"));
 
-                        if (jsonArr.getJSONObject(i).getJSONObject("key") != null) {
+                        if (!(jsonArr.getJSONObject(i).isNull("key"))) {
                             tagsFromDB.add(jsonArr.getJSONObject(i).getJSONObject("key").getString("thekey"));
+                        } else {
+                            tagsFromDB.add("");
                         }
-                        if (jsonArr.getJSONObject(i).getJSONArray("likes").length() != 0) {
-                            likesFromDB.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("name") + jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("surname"));
+
+                        if (jsonArr.getJSONObject(i).optJSONArray("likes") != null) {
+                            if (jsonArr.getJSONObject(i).getJSONArray("likes").length() != 0) {
+                                likesFromDB.add(jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("name") + jsonArr.getJSONObject(i).getJSONArray("likes").getJSONObject(0).getString("surname"));
+                            } else {
+                                likesFromDB.add("");
+                            }
                         }
                     }
                 }

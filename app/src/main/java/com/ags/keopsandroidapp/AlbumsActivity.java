@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +26,25 @@ public class AlbumsActivity extends AppCompatActivity {
     private String user_id;
     ListView listViewAlbums;
 
+    //Menu olusturuldu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_albums, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Menu item'nin secilmesi kontrolu
+        if (item.getItemId() == R.id.add_albums) {
+            Intent intent = new Intent(getApplicationContext(), AddAlbumActivity.class);
+            intent.putExtra("user_id", user_id);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +52,6 @@ public class AlbumsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
-
         listViewAlbums = findViewById(R.id.listViewAlbums);
         getAlbums();
     }

@@ -36,16 +36,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_albums, menu);
+        menuInflater.inflate(R.menu.set_value_n, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Menu item'nin secilmesi kontrolu
-        if (item.getItemId() == R.id.add_albums) {
-            //MainActivit2'nin calismasi saglaniyor
-            Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
+        if (item.getItemId() == R.id.set_value_n) {
+            Intent intent = new Intent(getApplicationContext(), SetNActivity.class);
+            intent.putExtra("user_id", user_id);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
