@@ -44,6 +44,7 @@ public class AddPhotoActivity extends AppCompatActivity {
         }
     }
 
+
     //Kullaninic izin verdiginde ne olcagi kisim
 
 
